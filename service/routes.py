@@ -145,4 +145,3 @@ def check_content_type(media_type):
         app.logger.error("Invalid Content-Type: %s", content_type)
 
 
-
