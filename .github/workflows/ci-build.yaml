@@ -1,3 +1,14 @@
+# Add this code at the start
+name: CI Build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Existing code for the jobs & other stages
 jobs:
   build:
     runs-on: ubuntu-latest
