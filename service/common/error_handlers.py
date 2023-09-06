@@ -6,14 +6,11 @@ from service.models import DataValidationError
 from service import app
 from . import status
 
-# Import necessary modules and define models (if any)
-from flask import Flask
-from service.models import Account
-from service.routes import app  # Import app from your routes file
-
 ######################################################################
 # Error Handlers
 ######################################################################
+
+
 @app.errorhandler(DataValidationError)
 def request_validation_error(error):
     """Handles Value Errors from bad data"""
