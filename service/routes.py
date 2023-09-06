@@ -106,7 +106,10 @@ def method_not_allowed(error):
     """
     Handle Method Not Allowed (405) errors
     """
-    return jsonify(error="Method not allowed", message="The requested method is not allowed for this endpoint."), status.HTTP_405_METHOD_NOT_ALLOWED
+    return jsonify(
+    error="Method not allowed",
+    message="The requested method is not allowed for this endpoint."
+), status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @app.errorhandler(status.HTTP_404_NOT_FOUND)
@@ -114,7 +117,11 @@ def not_found(error):
     """
     Handle Not Found (404) errors
     """
-    return jsonify(error="Not Found", message="The requested resource was not found."), status.HTTP_404_NOT_FOUND
+    return jsonify(
+    error="Not Found",
+    message="The requested resource was not found."
+), status.HTTP_404_NOT_FOUND
+
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
@@ -125,7 +132,7 @@ def update_account(account_id):
     """
     Update an Account
     This endpoint will update an Account based on the posted data
-    """
+
     app.logger.info("Request to update an Account with id: %s", account_id)
 
     # Find the account by ID in the database
