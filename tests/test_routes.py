@@ -179,10 +179,8 @@ class TestAccountService(TestCase):
   def test_unsupported_media_type(self):
     """Test creating an account with an unsupported media type."""
     response = self.client.post(
-        "/accounts",
-        data=json.dumps({"name": "John Doe"}),
-        content_type="text/plain",  # Set an unsupported media type here
+      "/accounts",
+      data=json.dumps({"name": "John Doe"}),
+      content_type="text/plain",  # Set an unsupported media type here
     )
     self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-
-
