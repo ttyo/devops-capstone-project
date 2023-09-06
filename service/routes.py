@@ -123,10 +123,10 @@ def not_found(error):
 # ... place you code here to UPDATE an account ...
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_account(account_id):
-    """
-    Update an Account
-    This endpoint will update an Account based on the posted data
-    """
+    
+#    Update an Account
+#    This endpoint will update an Account based on the posted data
+
     app.logger.info("Request to update an Account with id: %s", account_id)
 
     # Find the account by ID in the database
@@ -144,10 +144,9 @@ def update_account(account_id):
     account.update()
 
     return jsonify(account.serialize()), status.HTTP_200_OK
-######################################################################
+###################################
 # DELETE AN ACCOUNT
-######################################################################
-
+#################################
 # ... place you code here to DELETE an account ...
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
