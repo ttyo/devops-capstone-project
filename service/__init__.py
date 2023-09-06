@@ -11,11 +11,19 @@ from service.common import log_handlers
 from flask_talisman import Talisman
 from flask_cors import CORS
 
+
 # Create Flask application
-app = Flask(__name__)
+
+csp = {
+    'default-src': ["'self'", 'https://cdn.example.com'],
+    'script-src': ["'self'", 'https://ajax.googleapis.com'],
+    # Add other policies as needed
+}
+Talisman(app, content_security_policy=csp)
+
 app.config.from_object(config)
-talisman = Talisman(app)
-talisman = Talisman()
+#talisman = Talisman(app)
+#talisman = Talisman()
 CORS(app)
 
 # Initialize Talisman with the app and policies
