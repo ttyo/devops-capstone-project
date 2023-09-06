@@ -140,7 +140,9 @@ def check_content_type(media_type):
     content_type = request.headers.get("Content-Type")
     if content_type and content_type == media_type:
         # Perform some actions when the Content-Type is correct
+        pass  # Placeholder for the indented block
     else:
         app.logger.error("Invalid Content-Type: %s", content_type)
+
 
 
