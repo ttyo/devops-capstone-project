@@ -39,6 +39,8 @@ def index():
 ######################################################################
 # CREATE A NEW ACCOUNT
 ######################################################################
+
+
 @app.route("/accounts", methods=["POST"])
 def create_accounts():
     """
@@ -62,8 +64,6 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
-# ... place you code here to LIST accounts ...
-
 
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
@@ -82,11 +82,6 @@ def list_accounts():
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
-
-# ... place you code here to READ an account ...
-    ######################################################################
-    # READ AN ACCOUNT
-    ######################################################################
 
 
 @app.route("/accounts/<int:account_id>", methods=["GET"])
@@ -120,15 +115,11 @@ def not_found(error):
     Handle Not Found (404) errors
     """
     return jsonify(error="Not Found", message="The requested resource was not found."), status.HTTP_404_NOT_FOUND
-
-# ... (other route definitions)
-
-
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
 
-# ... place you code here to UPDATE an account ...
+
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_account(account_id):
     """
@@ -158,7 +149,7 @@ def update_account(account_id):
 # DELETE AN ACCOUNT
 ######################################################################
 
-# ... place you code here to DELETE an account ...
+
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
     """
