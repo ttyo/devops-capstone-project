@@ -176,11 +176,10 @@ class TestAccountService(TestCase):
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-  def test_unsupported_media_type(self):
+    def test_unsupported_media_type(self):
     """Test creating an account with an unsupported media type."""
-    response = self.client.post(
-      "/accounts",
-      data=json.dumps({"name": "John Doe"}),
-      content_type="text/plain",  # Set an unsupported media type here
-    )
-    self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        response = self.client.post(
+          "/accounts",
+          data=json.dumps({"name": "John Doe"}),
+          content_type="text/plain",  # Set an unsupported media type here)
+          self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
