@@ -45,6 +45,7 @@ def create_accounts():
     This endpoint will create an Account based the data in the body that is posted
     """
     app.logger.info("Request to create an Account")
+    app.logger.error("Invalid Content-Type: %s", content_type)
     check_content_type("application/json")
     account = Account()
     account.deserialize(request.get_json())
