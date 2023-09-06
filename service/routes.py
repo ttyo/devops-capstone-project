@@ -119,8 +119,8 @@ def not_found(error):
     """
     return jsonify(
     error="Not Found",
-    message="The requested resource was not found."
-), status.HTTP_404_NOT_FOUND
+        message="The requested resource was not found."
+            ), status.HTTP_404_NOT_FOUND
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
@@ -130,8 +130,8 @@ def not_found(error):
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_account(account_id):
 
-#    Update an Account
-#    This endpoint will update an Account based on the posted data
+    #    Update an Account
+    #    This endpoint will update an Account based on the posted data
 
     app.logger.info("Request to update an Account with id: %s", account_id)
 
@@ -160,8 +160,8 @@ def update_account(account_id):
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
 
-#    Delete an Account
-#    This endpoint will delete an Account based on the account_id that is requested
+    #    Delete an Account
+    #    This endpoint will delete an Account based on the account_id that is requested
 
     app.logger.info("Request to delete an Account with id: %s", account_id)
 
