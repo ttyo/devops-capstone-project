@@ -138,8 +138,7 @@ def delete_accounts(account_id):
 def check_content_type(media_type):
     """Checks that the media type is correct"""
     content_type = request.headers.get("Content-Type")
-    if content_type and content_type == media_type:
-        # Perform some actions when the Content-Type is correct
+    if content_type and content_type == media_type: # Perform some actions when the Content-Type is correct
         else:
-        app.logger.error("Invalid Content-Type: %s", content_type)
+            app.logger.error("Invalid Content-Type: %s", content_type)
 
