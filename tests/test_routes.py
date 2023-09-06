@@ -186,3 +186,4 @@ def test_unsupported_media_type(self):
     )
     self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
+
