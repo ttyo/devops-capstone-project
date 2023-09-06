@@ -45,7 +45,6 @@ def create_accounts():
     This endpoint will create an Account based the data in the body that is posted
     """
     app.logger.info("Request to create an Account")
-    app.logger.error("Invalid Content-Type: %s", content_type)
     check_content_type("application/json")
     account = Account()
     account.deserialize(request.get_json())
@@ -132,14 +131,18 @@ def delete_accounts(account_id):
         account.delete()
     return "", status.HTTP_204_NO_CONTENT
 
+
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
+
 def check_content_type(media_type):
     """Checks that the media type is correct"""
     content_type = request.headers.get("Content-Type")
     if content_type and content_type == media_type:
-    # Perform some actions when the Content-Type is correct
-    else:
-        app.logger.error("Invalid Content-Type: %s", content_type)
-
+        return
+    app.logger.info.error("Invalid Content-Tpye: %s", content_type)
+    abort(
+        status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        f"Content-Type must be {media_type}",
+    )
