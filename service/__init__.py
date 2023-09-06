@@ -11,23 +11,11 @@ from service.common import log_handlers
 from flask_talisman import Talisman
 from flask_cors import CORS
 
-
 # Create Flask application
-
-csp = {
-    'default-src': ["'self'", 'https://cdn.example.com'],
-    'script-src': ["'self'", 'https://ajax.googleapis.com'],
-    # Add other policies as needed
-}
-Talisman(app, content_security_policy=csp)
-
+app = Flask(__name__)
 app.config.from_object(config)
-#talisman = Talisman(app)
-#talisman = Talisman()
+talisman = Talisman(app)
 CORS(app)
-
-# Initialize Talisman with the app and policies
-talisman.init_app(app, content_security_policy=content_security_policy)
 
 # Import the routes After the Flask app is created
 # pylint: disable=wrong-import-position, cyclic-import, wrong-import-order
