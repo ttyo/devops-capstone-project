@@ -9,12 +9,11 @@ from service.models import Account
 from service.common import status  # HTTP Status Codes
 from . import app  # Import Flask application
 
-# Import necessary modules and define models (if any)
-from flask import Flask
-
 ############################################################
 # Health Endpoint
 ############################################################
+
+
 @app.route("/health")
 def health():
     """Health Status"""
@@ -64,6 +63,8 @@ def create_accounts():
 ######################################################################
 
 # ... place you code here to LIST accounts ...
+
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
@@ -86,6 +87,8 @@ def list_accounts():
     ######################################################################
     # READ AN ACCOUNT
     ######################################################################
+
+
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def get_accounts(account_id):
     """
@@ -102,12 +105,15 @@ def get_accounts(account_id):
 
 # ... (other route definitions)
 
+
 @app.errorhandler(status.HTTP_405_METHOD_NOT_ALLOWED)
 def method_not_allowed(error):
     """
     Handle Method Not Allowed (405) errors
     """
-    return jsonify(error="Method not allowed", message="The requested method is not allowed for this endpoint."), status.HTTP_405_METHOD_NOT_ALLOWED
+    return jsonify(error="Method not allowed", message="The requested method is not allowed for this endpoint."), 
+        status.HTTP_405_METHOD_NOT_ALLOWED
+
 
 @app.errorhandler(status.HTTP_404_NOT_FOUND)
 def not_found(error):
@@ -168,16 +174,9 @@ def delete_accounts(account_id):
 
     return "", status.HTTP_204_NO_CONTENT
 
-
-
-
-
-
-
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
-
 
 def check_content_type(media_type):
     """Checks that the media type is correct"""
