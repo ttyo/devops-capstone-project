@@ -6,11 +6,7 @@ All of the models are stored in this module
 import logging
 from datetime import date
 from flask_sqlalchemy import SQLAlchemy
-
-# Import necessary modules and define models (if any)
-from flask import Flask
 from service.models import Account
-from service.routes import app  # Import app from your routes file
 
 
 logger = logging.getLogger("flask.app")
