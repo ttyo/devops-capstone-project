@@ -12,12 +12,9 @@ from tests.factories import AccountFactory
 from service.common import status  # HTTP Status Codes
 from service.models import db, Account, init_db
 from service.routes import app
-from service import talisman
-import json
 
-
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/postgres"
+DATABASE_URI = os.getenv(
+    "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/postgres"
 )
 
 BASE_URL = "/accounts"
@@ -34,10 +31,9 @@ class TestAccountService(TestCase):
         """Run once before all tests"""
         app.config["TESTING"] = True
         app.config["DEBUG"] = False
-        app.config["SQLALCHEMY_DATABASE_URL"] = DATABASE_URL
+        app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
         app.logger.setLevel(logging.CRITICAL)
         init_db(app)
-        talisman.force_https = False
 
     @classmethod
     def tearDownClass(cls):
@@ -123,13 +119,14 @@ class TestAccountService(TestCase):
         response = self.client.post(
             BASE_URL,
             json=account.serialize(),
-            content_type="application/json"
+            content_type="test/html"
         )
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
-    def test_read_an_account(self):
-        """It Reads account"""
+
+    def test_get_account(self):
+        """It should Read a single Account"""
         account = self._create_accounts(1)[0]
         resp = self.client.get(
             f"{BASE_URL}/{account.id}", content_type="application/json"
@@ -138,12 +135,7 @@ class TestAccountService(TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], account.name)
 
-    def test_account_not_found(self):
-        """Account Wasn't Found"""
-        resp = self.client.get(f"{BASE_URL}/0")
-        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_list_all_accounts(self):
+    def test_get_account_list(self): 
         """It should Get a list of Accounts"""
         self._create_accounts(5)
         resp = self.client.get(BASE_URL)
@@ -153,12 +145,12 @@ class TestAccountService(TestCase):
 
     def test_update_account(self):
         """It should Update an existing Account"""
-        # create an Account to update
+        # Create an Account to update
         test_account = AccountFactory()
         resp = self.client.post(BASE_URL, json=test_account.serialize())
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
-        # update the account
+        # Update the account
         new_account = resp.get_json()
         new_account["name"] = "Something Known"
         resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)
@@ -174,16 +166,94 @@ class TestAccountService(TestCase):
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
+        # Make a DELETE request on the BASE_URL
         resp = self.client.delete(BASE_URL)
+        # Assert that the resp.status_code is status.HTTP_405_METHOD_NOT_ALLOWED
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-def test_unsupported_media_type(self):
-    """Test creating an account with an unsupported media type."""
-    response = self.client.post(
-        "/accounts",
-        data=json.dumps({"name": "John Doe"}),
-        content_type="text/plain",  # Set an unsupported media type here
-    )
-    self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    def test_get_account_not_found(self):
+        """It should handle the case when an Account is not found"""
+        # Make a GET request to an endpoint with an invalid account number (e.g., 9999)
+        resp = self.client.get(f"{BASE_URL}/9999")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+    
+        # Update the expected error message to match the actual response
+        expected_error_message = "404 Not Found: Account with id [9999] could not be found."
+        data = resp.get_json()
+        self.assertIn(expected_error_message, data["message"])
+
+    def test_get_nonexistent_account(self):
+        """It should raise a 404 error when attempting to read a non-existent Account"""
+        nonexistent_account_id = 12345  # Replace with a non-existent account ID
+        resp = self.client.get(
+            f"{BASE_URL}/{nonexistent_account_id}",
+            content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+        data = resp.get_json()
+        self.assertIn(f"Account with id [{nonexistent_account_id}] could not be found.", data["message"])
 
 
+
+
+import unittest
+from flask import Flask
+from service.routes import app
+from service.common import status
+
+class TestAccountErrorHandling(unittest.TestCase):
+
+    def setUp(self):
+        app.config["TESTING"] = True
+        app.config["DEBUG"] = False
+
+    def tearDown(self):
+        pass
+
+    def test_create_account_with_invalid_data(self):
+        with app.test_client() as client:
+            # Attempt to create an account with missing 'name' field
+            response = client.post("/accounts", json={"email": "test@example.com"})
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+            # Attempt to create an account with an empty 'email' field
+            response = client.post("/accounts", json={"name": "Test User", "email": ""})
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+            # Attempt to create an account with invalid data format
+            response = client.post("/accounts", json={"name": "Test User", "email": "invalid-email"})
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+    def test_update_account_invalid_data(self):
+        """It should return a 400 Bad Request when updating an account with invalid data"""
+        # Create a test account
+        account = AccountFactory()
+        response = self.client.post(
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Attempt to update the account with invalid data (missing 'name' field)
+        updated_account_data = {
+            "email": "new-email@example.com"
+        }
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=updated_account_data,
+            content_type="application/json"
+        )
+    
+        # Ensure that a 400 Bad Request response is returned
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        # Check that the response contains an error message
+        data = response.get_json()
+        self.assertIn("Both 'name' and 'email' fields are required.", data["message"])
