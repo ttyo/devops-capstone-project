@@ -15,7 +15,24 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_object(config)
 talisman = Talisman(app)
+talisman = Talisman()
 CORS(app)
+
+# Configure security policies
+content_security_policy = {
+    'default-src': [
+        "'self'",
+        'https://cdn.example.com',  # Example: Allow loading scripts from a CDN
+    ],
+    'script-src': [
+        "'self'",
+        'https://ajax.googleapis.com',  # Example: Allow loading scripts from Google's CDN
+    ],
+    # Add other policies as needed
+}
+
+# Initialize Talisman with the app and policies
+talisman.init_app(app, content_security_policy=content_security_policy)
 
 # Import the routes After the Flask app is created
 # pylint: disable=wrong-import-position, cyclic-import, wrong-import-order
