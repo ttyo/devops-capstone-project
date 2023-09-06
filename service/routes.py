@@ -129,9 +129,9 @@ def not_found(error):
 
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_account(account_id):
-    """
-    Update an Account
-    This endpoint will update an Account based on the posted data
+
+#    Update an Account
+#    This endpoint will update an Account based on the posted data
 
     app.logger.info("Request to update an Account with id: %s", account_id)
 
