@@ -118,7 +118,7 @@ def not_found(error):
     Handle Not Found (404) errors
     """
     return jsonify(
-        error="Not Found", 
+        error="Not Found",
         message="The requested resource was not found."
     ), status.HTTP_404_NOT_FOUND
 
