@@ -4,14 +4,14 @@ Package for the application models and service routes
 This module creates and configures the Flask app and sets up the logging
 and SQL database
 """
-pip install -r requirements.txt.
+#pip install -r requirements.txt
 
 import sys
 from flask import Flask
 from service import config
 from service.common import log_handlers
-from flask_talisman import Talisman
-talisman = Talisman(app)
+#from fFlask==2.0.1
+#SQLAlchemy==1.4.27
 
 # Create Flask application
 app = Flask(__name__)
