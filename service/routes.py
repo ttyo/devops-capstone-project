@@ -9,22 +9,19 @@ from service.models import Account
 from service.common import status  # HTTP Status Codes
 from . import app  # Import Flask application
 
+from flask import Flask
+
+app = Flask(__name__)
+
 
 ############################################################
 # Health Endpoint
 ############################################################
 
-
 @app.route("/health")
 def health():
     """Health Status"""
     return jsonify(dict(status="OK")), status.HTTP_200_OK
-
-
-######################################################################
-# GET INDEX
-######################################################################
-
 
 @app.route("/")
 def index():
@@ -37,6 +34,9 @@ def index():
         ),
         status.HTTP_200_OK,
     )
+
+# Create a response for the root URL with security headers
+
 
 
 ######################################################################
@@ -160,3 +160,8 @@ def check_content_type(media_type):
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {media_type}",
     )
+
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run()
