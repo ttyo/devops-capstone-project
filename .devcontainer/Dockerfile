@@ -1,3 +1,6 @@
+# ttyo's Dockerfil URL:
+# https://accounts-sn-labs-tduquesnay.labs-prod-openshift-san-a45631dc5778dc6371c67d206ba9ae5c-0000.us-east.containers.appdomain.cloud/
+
 # The Skills Network Cloud IDE uses Ubuntu 18.04 :(
 FROM ubuntu:18.04
 
